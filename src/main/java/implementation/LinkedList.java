@@ -46,11 +46,13 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public boolean offerFirst(E var1) {
-        return false;
+        addFirst(var1);
+        return true;
     }
 
     public boolean offerLast(E var1) {
-        return false;
+        addLast(var1);
+        return true;
     }
 
     public E removeFirst() {
@@ -83,11 +85,13 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public E pollFirst() {
-        return null;
+        this.head = head.next;
+        this.head.previous = null;
+        return head.element;
     }
 
     public E pollLast() {
-        return null;
+        return removeLast();
     }
 
     public E getFirst() {
