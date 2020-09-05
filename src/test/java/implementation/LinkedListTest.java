@@ -97,4 +97,13 @@ class LinkedListTest {
         assertFalse(list.isEmpty());
         assertTrue(new LinkedList<>().isEmpty());
     }
+
+    @Test
+    public void testClear() {
+        list.clear();
+        assertEquals(0, list.size());
+    }
+
+
+
 }

@@ -1,8 +1,6 @@
 package abstraction;
 
 public interface List<T> {
-    public void add(T value);
-
     public void insert(int index, T value) throws
             IndexOutOfBoundsException;
 
