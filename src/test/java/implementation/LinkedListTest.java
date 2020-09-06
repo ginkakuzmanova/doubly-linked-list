@@ -106,13 +106,13 @@ class LinkedListTest {
 
     @Test
     public void testOfferFirst() {
-        list.offerFirst("Yordan");
+        assertTrue(list.offerFirst("Yordan"));
         assertEquals("Yordan", list.getFirst());
     }
 
     @Test
     public void testOfferLast() {
-        list.offerLast("Yordan");
+        assertTrue(list.offerLast("Yordan"));
         assertEquals("Yordan", list.getLast());
     }
 
