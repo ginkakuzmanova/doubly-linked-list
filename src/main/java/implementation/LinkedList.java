@@ -172,12 +172,31 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void delete(int index) throws IndexOutOfBoundsException {
-
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (head == null) {
+            return;
+        }
+        if (index == 0) {
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
+        } else {
+            Node<E> temp = head;
+            for (int i = 1; i < index; i++) {
+                temp = temp.next;
+            }
+            temp.next.previous = temp.previous;
+            temp.previous.next = temp.next;
+        }
+        this.size--;
     }
 
     public E get(int index) throws IndexOutOfBoundsException {
         ensureNonEmpty();
-        if (0 >= index && index > this.size()) {
+        if (0 > index && index > this.size()) {
             throw new IndexOutOfBoundsException();
         }
         Node<E> temp = this.head;
@@ -192,6 +211,8 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void set(int index, E value) throws IndexOutOfBoundsException {
+        //Node<E> node = validate(p);
+        E answer = get(index);
 
     }
 
@@ -205,7 +226,16 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public int indexOf(Object value) {
-        return 0;
+        Node<E> temp = head;
+        int index = 0;
+        while (temp != null) {
+            if (temp.element.equals(value)) {
+                return index;
+            }
+            index++;
+            temp = temp.next;
+        }
+        return -1;
     }
 
     public boolean isEmpty() {
