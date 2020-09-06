@@ -104,6 +104,101 @@ class LinkedListTest {
         assertEquals(0, list.size());
     }
 
+    @Test
+    public void testOfferFirst() {
+        list.offerFirst("Yordan");
+        assertEquals("Yordan", list.getFirst());
+    }
 
+    @Test
+    public void testOfferLast() {
+        list.offerLast("Yordan");
+        assertEquals("Yordan", list.getLast());
+    }
 
+    @Test
+    public void testPollFirst() {
+        String first = list.pollFirst();
+        assertEquals("0", first);
+        assertEquals("1", list.element());
+        assertEquals(99, list.size());
+    }
+
+    @Test
+    public void testPollLast() {
+        String last = list.pollLast();
+        assertEquals("99", last);
+        assertEquals("98", list.getLast());
+        assertEquals(99, list.size());
+    }
+
+    @Test
+    public void testAdd() {
+        assertTrue(list.add("Maria"));
+        assertEquals("Maria", list.getLast());
+        assertEquals(101, list.size());
+    }
+
+    @Test
+    public void testOffer() {
+        assertTrue(list.offer("Maria"));
+        assertEquals("Maria", list.getLast());
+        assertEquals(101, list.size());
+    }
+
+    @Test
+    public void testRemove() {
+        String removed = list.remove();
+        assertEquals("99", removed);
+        assertEquals(99, list.size());
+    }
+
+    @Test
+    public void testPoll() {
+        String removed = list.poll();
+        assertEquals("0", removed);
+        assertEquals(99, list.size());
+    }
+
+    @Test
+    public void testPeek() {
+        String peeked = list.peek();
+        assertEquals("0", peeked);
+    }
+
+    @Test
+    public void testInsert() {
+        list.insert(0, "Pesho");
+        list.insert(5, "Elena");
+        assertEquals("Pesho", list.get(0));
+        assertEquals("Elena", list.get(5));
+    }
+
+    @Test
+    public void testDelete() {
+        list.delete(0);
+        list.delete(3);
+        assertThrows(IndexOutOfBoundsException.class, () -> list.delete(-5));
+        assertEquals("1", list.getFirst());
+        assertEquals("4",list.get(2));
+        assertEquals(98, list.size());
+    }
+
+    @Test
+    public void testSet() {
+        list.set(1,"Gosho");
+        assertEquals("Gosho", list.get(1));
+    }
+    @Test
+    public void testDeleteByValue() {
+        assertTrue(list.delete("54"));
+        assertEquals("55", list.get(54));
+        assertEquals(99,list.size());
+    }
+
+    @Test
+    public void testContains() {
+        assertTrue(list.contains("54"));
+        assertFalse(list.contains("1000"));
+    }
 }

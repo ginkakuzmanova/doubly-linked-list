@@ -3,13 +3,14 @@ package implementation;
 import abstraction.Deque;
 import abstraction.List;
 
+//Doubly Linked List
 public class LinkedList<E> implements List<E>, Deque<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
 
     private static class Node<E> {
-        private final E element;
+        private E element;
         private Node<E> previous;
         private Node<E> next;
 
@@ -85,9 +86,11 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public E pollFirst() {
+        E element = head.element;
         this.head = head.next;
         this.head.previous = null;
-        return head.element;
+        this.size--;
+        return element;
     }
 
     public E pollLast() {
@@ -110,7 +113,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public boolean offer(E var1) {
-        //addLast
         Node<E> nodeToOffer = new Node<>(var1);
         if (this.head == null) {
             this.head = this.tail = nodeToOffer;
@@ -160,14 +162,11 @@ public class LinkedList<E> implements List<E>, Deque<E> {
             addLast(value);
         } else {
             Node<E> node = new Node<>(value);
-            E preNode = get(index - 1);
-            Node<E> prev = new Node<>(preNode);
-            Node<E> nextNode = prev.next;
-            node.next = nextNode;
-            node.previous = prev;
-            nextNode.previous = node;
-            prev.next = node;
-            size++;
+            Node<E> preNode = node(index - 1);
+            node.next = preNode.next;
+            node.previous = preNode;
+            preNode.next = node;
+            this.size++;
         }
     }
 
@@ -196,9 +195,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
 
     public E get(int index) throws IndexOutOfBoundsException {
         ensureNonEmpty();
-        if (0 > index && index > this.size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        ensureValidIndex(index);
         Node<E> temp = this.head;
         for (int i = 0; i < index; i++) {
             temp = temp.next;
@@ -211,18 +208,38 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void set(int index, E value) throws IndexOutOfBoundsException {
-        //Node<E> node = validate(p);
-        E answer = get(index);
-
+        ensureValidIndex(index);
+        Node<E> temp = node(index);
+        temp.element = value;
     }
 
     public boolean delete(E value) {
+        if (head == null) return false;
+        int i = indexOf(value);
+        Node<E> node = node(i);
+        if (node.equals(head)) {
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
+            this.size--;
+            return true;
+        }
+        Node<E> current = head;
+        while (current != null) {
+            current = current.next;
+            if (node.equals(current)) {
+                current.previous.next = current.next;
+                current.next.previous = current.previous;
+                this.size--;
+                return true;
+            }
+        }
         return false;
     }
 
     public boolean contains(E value) {
-        Node<E> node = new Node<>(value);
-        return indexOf(node) >= 0;
+        return indexOf(value) >= 0;
     }
 
     public int indexOf(Object value) {
@@ -251,6 +268,26 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     private void ensureNonEmpty() {
         if (this.size == 0) {
             throw new IllegalStateException("Illegal operation for empty LinkedList");
+        }
+    }
+
+    private void ensureValidIndex(int index) {
+        if (0 > index && index > this.size()) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    private Node<E> node(int index) {
+        if (index < (size >> 1)) {
+            Node<E> x = head;
+            for (int i = 0; i < index; i++)
+                x = x.next;
+            return x;
+        } else {
+            Node<E> x = tail;
+            for (int i = size - 1; i > index; i--)
+                x = x.previous;
+            return x;
         }
     }
 }
