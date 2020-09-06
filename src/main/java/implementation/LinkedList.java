@@ -22,7 +22,6 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     public LinkedList() {
     }
 
-
     public void addFirst(E var1) {
         Node<E> nodeToAdd = new Node<>(var1);
         if (this.head != null) {
@@ -153,9 +152,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void insert(int index, E value) throws IndexOutOfBoundsException {
-        if (index < 0 || index > this.size) {
-            throw new IndexOutOfBoundsException();
-        }
+        ensureValidIndex(index);
         if (index == 0) {
             addFirst(value);
         } else if (index == this.size) {
@@ -171,9 +168,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     public void delete(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index > this.size) {
-            throw new IndexOutOfBoundsException();
-        }
+        ensureValidIndex(index);
         if (head == null) {
             return;
         }
@@ -272,7 +267,7 @@ public class LinkedList<E> implements List<E>, Deque<E> {
     }
 
     private void ensureValidIndex(int index) {
-        if (0 > index && index > this.size()) {
+        if (index < 0 || index > this.size()) {
             throw new IndexOutOfBoundsException();
         }
     }

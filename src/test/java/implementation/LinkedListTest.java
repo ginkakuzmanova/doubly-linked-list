@@ -180,25 +180,37 @@ class LinkedListTest {
         list.delete(3);
         assertThrows(IndexOutOfBoundsException.class, () -> list.delete(-5));
         assertEquals("1", list.getFirst());
-        assertEquals("4",list.get(2));
+        assertEquals("4", list.get(2));
         assertEquals(98, list.size());
     }
 
     @Test
     public void testSet() {
-        list.set(1,"Gosho");
+        list.set(1, "Gosho");
         assertEquals("Gosho", list.get(1));
     }
+
     @Test
     public void testDeleteByValue() {
+        assertTrue(list.delete("0"));
+        assertEquals("1", list.get(0));
         assertTrue(list.delete("54"));
-        assertEquals("55", list.get(54));
-        assertEquals(99,list.size());
+        assertEquals("56", list.get(54));
+        assertEquals(98, list.size());
     }
 
     @Test
     public void testContains() {
         assertTrue(list.contains("54"));
         assertFalse(list.contains("1000"));
+    }
+
+    @Test
+    public void testEnsureValidIndex() {
+        LinkedList<Integer> integers = new LinkedList<>();
+        integers.add(1);
+        integers.poll();
+        assertThrows(IllegalStateException.class, integers::poll);
+        assertEquals(0, integers.size());
     }
 }
